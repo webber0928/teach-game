@@ -22,37 +22,37 @@ io.on('connection', (socket) => {
     socket.on('main-join-game', (data) => {
     });
     
-    socket.on('player-join', (params) => {
+    socket.on('player-join', (data) => {
     });
     
     socket.on('player-join-game', (data) => {
     });
 
-    socket.on('player-answer', function(num){
+    socket.on('player-answer', (data) => {
     });
     
-    socket.on('disconnect', () => {
+    socket.on('disconnect', (data) => {
     });
     
-    socket.on('get-score', function(){
+    socket.on('get-score', (data) => {
     });
     
-    socket.on('time', function(data){
+    socket.on('time', (data) => {
     });
     
-    socket.on('time-up', function(){
+    socket.on('time-up', (data) => {
     });
     
-    socket.on('next-question', function(){
+    socket.on('next-question', (data) => {
     });
     
-    socket.on('start-game', () => {
+    socket.on('start-game', (data) => {
     });
     
-    socket.on('request-db-names', function(){
+    socket.on('request-db-names', (data) => {
     });
     
-    socket.on('new-quiz', function(data){
+    socket.on('new-quiz', (data) => {
     });
     
 });
