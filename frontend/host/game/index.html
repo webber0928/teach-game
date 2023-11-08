@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>遊戲 | 智慧語言學習 DEMO</title>
+        <link rel = "stylesheet" href = "../../assets/css/hostGameView.css">
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Tajawal" rel="stylesheet">
+    </head>
+    <body>
+        <h4 id = "questionNum">問題 1 / x</h4>
+        <h4 id = "playersAnswered">玩家回答: 0 / x</h4>
+        <h3 id = "timerText">剩餘時間:<span id = "num"> 20</span></h3>
+        
+        
+        <div class = "square" id = "square1"></div>
+        <div class = "square" id = "square2"></div>
+        <div class = "square" id = "square3"></div>
+        <div class = "square" id = "square4"></div>
+        
+        <h2 id = "question">問題</h2>
+        <h3 id = "answer1">回答</h3>
+        <br>
+        <h3 id = "answer2">回答</h3>
+        <br>
+        <h3 id = "answer3">回答</h3>
+        <br>
+        <h3 id = "answer4">回答</h3>
+        
+        <br>
+        <button onclick = "nextQuestion()" id = "nextQButton">下個問題</button>
+        
+        <h2 id = "winnerTitle">前五名</h4>
+        <h3 id = "winner1">1.</h3>
+        <h3 id = "winner2">2.</h3>
+        <h3 id = "winner3">3.</h3>
+        <h3 id = "winner4">4.</h3>
+        <h3 id = "winner5">5.</h3>
+        
+        <script src = "../../socket.io/socket.io.js"></script>
+        <script src = "../../assets/js/libs/jqueryLibrary.js"></script>
+        <script src = "../../assets/js/libs/deparam.js"></script>
+        <script src = "../../assets/js/hostGame.js"></script>
+    </body>
+</html>

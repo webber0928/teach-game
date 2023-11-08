@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>課程創作 | 智慧語言學習 DEMO</title>
+        <link rel = "stylesheet" href = "../../assets/css/quizCreator.css">
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    </head>
+    <body onload = "setBGColor()">
+        <h1 id = "title">課程創立工作室</h1>
+        
+        <div class="form-field">
+            <label id = "quizTitle">課程標題</label>
+            <input id = "name" type = "text" name="name" autofocus/>
+        </div>
+        <br>
+        <br>
+        <div id = "allQuestions">
+            <div id="question-field">
+                <label>問題 1: </label>
+                <input class = "question" id = "q1" type = "text" autofocus/>
+                <br>
+                <br>
+                <label>回答 1: </label>
+                <input id = "1a1" type = "text" autofocus/>
+                <label>回答 2: </label>
+                <input id = "1a2" type = "text" autofocus/>
+                <br>
+                <br>
+                <label>回答 3: </label>
+                <input id = "1a3"  type = "text"autofocus/>
+                <label>回答 4: </label>
+                <input id = "1a4"  type = "text" autofocus/>
+                <br>
+                <br>
+                <label>正確答案 (1-4) :</label>
+                <input class = "correct" id = "correct1"  type = "number" autofocus/>
+            </div>
+        </div>
+        <br>
+        <button onclick = "addQuestion()">再加一個問題</button>
+        
+        <br>
+        <br>
+        
+        <div class="form-field">
+            <button onclick = "updateDatabase()">建立課程</button>
+        </div>
+        
+        <br>
+        
+        <button onclick = 'cancelQuiz()'>取消建立並返回課程選項</button>
+        
+        <script src = "../../socket.io/socket.io.js"></script>
+        <script src = "../../assets/js/quizCreator.js"></script>
+    </body>
+</html>
