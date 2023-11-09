@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/webber0928/teach-game#readme",
   "dependencies": {
+    "bluebird": "^3.7.2",
     "express": "^4.18.2",
     "moment": "^2.29.4",
     "socket.io": "^4.7.2",
-    "sqlite3": "^5.1.6"
+    "sqlite3": "^5.1.6",
+    "xlsx": "^0.18.5"
   }
 }
