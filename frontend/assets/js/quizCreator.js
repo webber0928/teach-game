@@ -16,7 +16,6 @@ function updateDatabase(){
     }
     
     let quiz = {id: 0, "name": name, "questions": questions};
-    console.log('L5555', quiz)
     socket.emit('newQuiz', quiz);
 }
 
@@ -96,7 +95,7 @@ function addQuestion(){
 
 //Called when user wants to exit quiz creator
 function cancelQuiz(){
-    if (confirm("Are you sure you want to exit? All work will be DELETED!")) {
+    if (confirm("你確定要離開？ 所有內容都將被刪除！")) {
         window.location.href = "../";
     }
 }

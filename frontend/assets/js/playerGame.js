@@ -32,7 +32,7 @@ function answerSubmitted(num){
         document.getElementById('answer3').style.visibility = "hidden";
         document.getElementById('answer4').style.visibility = "hidden";
         document.getElementById('message').style.display = "block";
-        document.getElementById('message').innerHTML = "Answer Submitted! Waiting on other players...";
+        document.getElementById('message').innerHTML = "已選擇答案！ 等待其他人...";
         
     }
 }
@@ -48,11 +48,11 @@ socket.on('questionOver', function(data){
     if(correct == true){
         document.body.style.backgroundColor = "#4CAF50";
         document.getElementById('message').style.display = "block";
-        document.getElementById('message').innerHTML = "Correct!";
+        document.getElementById('message').innerHTML = "唉喲～不錯喔!";
     }else{
         document.body.style.backgroundColor = "#f94a1e";
         document.getElementById('message').style.display = "block";
-        document.getElementById('message').innerHTML = "Incorrect!";
+        document.getElementById('message').innerHTML = "好像不對喔!";
     }
     document.getElementById('answer1').style.visibility = "hidden";
     document.getElementById('answer2').style.visibility = "hidden";
@@ -98,6 +98,6 @@ socket.on('GameOver', function(){
     document.getElementById('answer3').style.visibility = "hidden";
     document.getElementById('answer4').style.visibility = "hidden";
     document.getElementById('message').style.display = "block";
-    document.getElementById('message').innerHTML = "GAME OVER";
+    document.getElementById('message').innerHTML = "遊戲結束";
 });
 

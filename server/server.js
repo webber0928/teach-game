@@ -17,7 +17,7 @@ var players = new Players();
 
 //Mongodb setup
 var MongoClient = require('mongodb').MongoClient;
-var mongoose = require('mongoose');
+// var mongoose = require('mongoose');
 var url = "mongodb://localhost:27017/";
 
 
