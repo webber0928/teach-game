@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>遊戲 | 智慧語言學習 DEMO</title>
+        <meta name="referrer" content="no-referrer">
         <link rel = "stylesheet" href = "../../assets/css/hostGameView.css">
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Tajawal" rel="stylesheet">
@@ -9,7 +10,7 @@
     <body>
         <h4 id = "questionNum">問題 1 / x</h4>
         <h4 id = "playersAnswered">玩家回答: 0 / x</h4>
-        <h3 id = "timerText">剩餘時間:<span id = "num"> 20</span></h3>
+        <h3 id = "timerText">剩餘時間:<span id = "num"> -- </span></h3>
         
         
         <div class = "square" id = "square1"></div>
@@ -17,14 +18,19 @@
         <div class = "square" id = "square3"></div>
         <div class = "square" id = "square4"></div>
         
-        <h2 id = "question">問題</h2>
-        <h3 id = "answer1">回答</h3>
+        <h2 id="question" style="display:none">問題</h2>
+        <audio controls id="tts-audio" style="display: none" src="https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=apple"></audio>
         <br>
-        <h3 id = "answer2">回答</h3>
+        <button id="play-btn" onclick="playQuestion()"><img id="trumpet" style="width: 70px;" src="../../assets/img/trumpet.gif" /></button>
         <br>
-        <h3 id = "answer3">回答</h3>
         <br>
-        <h3 id = "answer4">回答</h3>
+        <div>
+            <div id="answer1">回答</div>
+            <div id="answer2">回答</div>
+            <div id="answer3">回答</div>
+            <div id="answer4">回答</div>
+            <div style="clear: both;"></div>
+        </div>
         
         <br>
         <button onclick = "nextQuestion()" id = "nextQButton">下個問題</button>

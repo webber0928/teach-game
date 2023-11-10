@@ -62,7 +62,7 @@ socket.on('questionOver', function(data){
 });
 
 socket.on('newScore', function(data){
-    document.getElementById('scoreText').innerHTML = "Score: " + data;
+    document.getElementById('scoreText').innerHTML = "分數: " + data;
 });
 
 socket.on('nextQuestionPlayer', function(){
@@ -85,8 +85,8 @@ socket.on('hostDisconnect', function(){
 socket.on('playerGameData', function(data){
    for(let i = 0; i < data.length; i++){
        if(data[i].playerId == socket.id){
-           document.getElementById('nameText').innerHTML = "Name: " + data[i].name;
-           document.getElementById('scoreText').innerHTML = "Score: " + data[i].gameData.score;
+           document.getElementById('nameText').innerHTML = "姓名: " + data[i].name;
+           document.getElementById('scoreText').innerHTML = "分數: " + data[i].gameData.score;
        }
    }
 });

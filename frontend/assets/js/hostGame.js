@@ -4,17 +4,14 @@ var params = jQuery.deparam(window.location.search); //Gets the id from url
 
 var timer;
 
-var time = 20;
+let time = 20;
 
-//When host connects to server
 socket.on('connect', function() {
-    
-    //Tell server that it is host connection from game view
     socket.emit('host-join-game', params);
 });
 
 socket.on('noGameFound', function(){
-   window.location.href = '../../';//Redirect user to 'join game' page
+    window.location.href = '../../';//Redirect user to 'join game' page
 });
 
 socket.on('gameQuestions', function(data){
@@ -24,12 +21,13 @@ socket.on('gameQuestions', function(data){
     document.getElementById('answer3').innerHTML = data.a3;
     document.getElementById('answer4').innerHTML = data.a4;
     let correctAnswer = data.correct;
-    document.getElementById('playersAnswered').innerHTML = "Players Answered 0 / " + data.playersInGame;
+    document.getElementById('playersAnswered').innerHTML = "玩家回答 0 / " + data.playersInGame;
+    document.getElementById('questionNum').innerHTML = `問題 ${data.questionNum} / ${data.questionLen}`;
     updateTimer();
 });
 
 socket.on('updatePlayersAnswered', function(data){
-   document.getElementById('playersAnswered').innerHTML = "Players Answered " + data.playersAnswered + " / " + data.playersInGame; 
+   document.getElementById('playersAnswered').innerHTML = "玩家回答 " + data.playersAnswered + " / " + data.playersInGame; 
 });
 
 socket.on('questionOver', function(playerData, correct){
@@ -42,6 +40,7 @@ socket.on('questionOver', function(playerData, correct){
     //Hide elements on page
     document.getElementById('playersAnswered').style.display = "none";
     document.getElementById('timerText').style.display = "none";
+    document.getElementById('play-btn').style.display = "none";
     
     //Shows user correct answer with effects on elements
     if(correct == 1){
@@ -103,6 +102,17 @@ socket.on('questionOver', function(playerData, correct){
     
 });
 
+function playQuestion () {
+    // document.getElementById('trumpet').style.display = "block";
+    let q = document.getElementById('question').textContent
+    let audio = document.getElementById("tts-audio");
+    audio.src=`https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${q}`;
+    audio.playbackRate = 1;
+    audio.play()
+    // document.getElementById('trumpet').style.display = "none";
+    // play-btn
+}
+
 function nextQuestion(){
     document.getElementById('nextQButton').style.display = "none";
     document.getElementById('square1').style.display = "none";
@@ -116,8 +126,9 @@ function nextQuestion(){
     document.getElementById('answer4').style.filter = "none";
     
     document.getElementById('playersAnswered').style.display = "block";
+    document.getElementById('play-btn').style.display = "block";
     document.getElementById('timerText').style.display = "block";
-    document.getElementById('num').innerHTML = " 20";
+    document.getElementById('num').innerHTML = ` ${time}`;
     socket.emit('nextQuestion'); //Tell server to start new question
 }
 
@@ -145,6 +156,7 @@ socket.on('GameOver', function(data){
     document.getElementById('timerText').innerHTML = "";
     document.getElementById('question').innerHTML = "GAME OVER";
     document.getElementById('playersAnswered').innerHTML = "";
+    document.getElementById('play-btn').style.display = "none";
     
     
     

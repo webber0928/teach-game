@@ -8,7 +8,7 @@ const socketIO = require('socket.io');
 const {LiveGames} = require('./utils/liveGames');
 const {Players} = require('./utils/players');
 
-const publicPath = path.join(__dirname, '../public');
+const publicPath = path.join(__dirname, '../frontend');
 var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
@@ -89,7 +89,7 @@ io.on('connection', (socket) => {
                 var query = { id:  parseInt(gameid)};
                 dbo.collection("kahootGames").find(query).toArray(function(err, res) {
                     if (err) throw err;
-                    
+
                     var question = res[0].questions[0].question;
                     var answer1 = res[0].questions[0].answers[0];
                     var answer2 = res[0].questions[0].answers[1];
@@ -104,7 +104,9 @@ io.on('connection', (socket) => {
                         a3: answer3,
                         a4: answer4,
                         correct: correctAnswer,
-                        playersInGame: playerData.length
+                        playersInGame: playerData.length,
+                        questionNum: 1,
+                        questionLen: res[0].questions.length
                     });
                     db.close();
                 });
@@ -340,7 +342,9 @@ io.on('connection', (socket) => {
                             a3: answer3,
                             a4: answer4,
                             correct: correctAnswer,
-                            playersInGame: playerData.length
+                            playersInGame: playerData.length,
+                            questionNum: questionNum + 1,
+                            questionLen: res[0].questions.length
                         });
                         db.close();
                     }else{
