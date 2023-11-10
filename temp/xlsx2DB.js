@@ -2,7 +2,7 @@ const XLSX = require('xlsx')
 const Promise = require('bluebird')
 const excelFile = `./temp/problem_set.xlsx`
 const sqlite3 = require('sqlite3').verbose();
-const file = './data/db/epd.db';
+const file = './data/db/CALL_DB.db';
 const db = new sqlite3.Database(file);
 
 
@@ -40,62 +40,28 @@ async function work () {
     // to DB
     console.log(obj)
     db.serialize(() => {    
-        db.run("CREATE TABLE IF NOT EXISTS lorem (name TEXT, question TEXT)");
+        db.run("CREATE TABLE IF NOT EXISTS GameInfo (id INTEGER, name TEXT, questions TEXT)");
     
-        // const stmt = db.prepare("INSERT INTO lorem VALUES (?,?)");
+        const stmt = db.prepare("INSERT INTO GameInfo VALUES (?, ?,?)");
         let i = 1
         for (const key in obj) {
             console.log(key)
-            obj[key].map((o) => {
-                console.log('L50', o)
-                return 
+            let formatObj = obj[key].map((o) => {
+                return {"question":o[0], "answers":o, "correct":1}
             })
-            // stmt.run([key, JSON.stringify(obj[key])]);
+            stmt.run([i, key, JSON.stringify(formatObj)]);
+            i++
         }
-        // for (let i = 0; i < 10; i++) {
-        //     stmt.run("Ipsum " + i);
-        // }
-        // stmt.finalize();
+        stmt.finalize();
     
-        db.each("SELECT rowid AS id, name, question FROM lorem", (err, row) => {
-            console.log(row.id, row.name, row.question);
-            // console.log(row.id + ": " + row.info);
+        db.each("SELECT * FROM GameInfo", (err, row) => {
+            console.log(row.id, row.name, row.questions);
+            console.log();
         });
     });
     
     
     db.close();
-    // db.serialize(() => {    
-    //     db.run("CREATE TABLE IF NOT EXISTS CALL_DB (info TEXT)");
-        
-    
-    //     // const stmt = db.prepare("INSERT INTO GameInfo(id, name, questions) values(?, ?, ?)");
-    //     for (let i = 0; i < obj.length; i++) {
-    //         console.log(obj[i])
-    //         // stmt.run("Ipsum " + i);
-    //     }
-    //     // stmt.finalize();
-    
-    //     // db.each("SELECT rowid AS id, info FROM lorem", (err, row) => {
-    //     //     console.log(row.id + ": " + row.info);
-    //     // });
-    // });
-
-
-
-/// tilesData format; [[level, column, row, content], [level, column, row, content]]
-// DB.SqliteDB.prototype.insertData = function (sql, objects) {
-//     DB.db.serialize(function () {
-//         let stmt = DB.db.prepare(sql);
-//         for (let i = 0; i < objects.length; ++i) {
-//             stmt.run(objects[i]);
-//         }
-
-//         stmt.finalize();
-//     });
-    
-    
-//     db.close();
 
     // process.exit()
 }
