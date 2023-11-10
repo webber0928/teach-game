@@ -34,12 +34,14 @@ io.on('connection', (socket) => {
     socket.on('host-join', (data) => {
         logger('host-join');
 
-        //Check to see if id passed in url corresponds to id of kahoot game in database
         const querySql = `select * from GameInfo where id = ${parseInt(data.id)}`;
         sqliteDB.queryData(querySql, (result) => {
             for (let i = 0; i < result.length; ++i) {
                 if (result[0] !== undefined) {
-                    let gamePin = Math.floor(Math.random() * 90000) + 10000; //new pin for game
+                    let gamePin = Math.floor(Math.random() * 90000) + 10000;
+                    // let gamePin = 9000; //new pin for game
+
+                    console.log(gamePin, socket.id)
 
                     games.addGame(gamePin, socket.id, false, {
                         playersAnswered: 0,
@@ -83,6 +85,7 @@ io.on('connection', (socket) => {
             const querySql = `select * from GameInfo where id = ${parseInt(gameid)};`;
             sqliteDB.queryData(querySql, (result) => {
                 for (let i = 0; i < result.length; ++i) {
+                    result[0].questions[0] = JSON.parse(questions[0])
                     let question = result[0].questions[0].question;
                     let answer1 = result[0].questions[0].answers[0];
                     let answer2 = result[0].questions[0].answers[1];
