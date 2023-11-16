@@ -14,12 +14,17 @@ socket.on('noGameFound', function(){
     window.location.href = '../../';//Redirect user to 'join game' page
 });
 
+function imgHtml(ans) {
+    let template = `<div> ${ans}</div><img style="height:250px;" src="/assets/img/Q1/${ans}.png" />"`
+    return template
+}
+
 socket.on('gameQuestions', function(data){
     document.getElementById('question').innerHTML = data.q1;
-    document.getElementById('answer1').innerHTML = data.a1;
-    document.getElementById('answer2').innerHTML = data.a2;
-    document.getElementById('answer3').innerHTML = data.a3;
-    document.getElementById('answer4').innerHTML = data.a4;
+    document.getElementById('answer1').innerHTML = imgHtml(data.a1);
+    document.getElementById('answer2').innerHTML = imgHtml(data.a2);
+    document.getElementById('answer3').innerHTML = imgHtml(data.a3);
+    document.getElementById('answer4').innerHTML = imgHtml(data.a4);
     let correctAnswer = data.correct;
     document.getElementById('playersAnswered').innerHTML = "玩家回答 0 / " + data.playersInGame;
     document.getElementById('questionNum').innerHTML = `問題 ${data.questionNum} / ${data.questionLen}`;
@@ -27,7 +32,7 @@ socket.on('gameQuestions', function(data){
 });
 
 socket.on('updatePlayersAnswered', function(data){
-   document.getElementById('playersAnswered').innerHTML = "玩家回答 " + data.playersAnswered + " / " + data.playersInGame; 
+    document.getElementById('playersAnswered').innerHTML = "玩家回答 " + data.playersAnswered + " / " + data.playersInGame;
 });
 
 socket.on('questionOver', function(playerData, correct){
@@ -48,25 +53,25 @@ socket.on('questionOver', function(playerData, correct){
         document.getElementById('answer3').style.filter = "grayscale(50%)";
         document.getElementById('answer4').style.filter = "grayscale(50%)";
         let current = document.getElementById('answer1').innerHTML;
-        document.getElementById('answer1').innerHTML = "&#10004" + " " + current;
+        document.getElementById('answer1').innerHTML = current.replace("<div> ", "<div> &#10004 ");
     }else if(correct == 2){
         document.getElementById('answer1').style.filter = "grayscale(50%)";
         document.getElementById('answer3').style.filter = "grayscale(50%)";
         document.getElementById('answer4').style.filter = "grayscale(50%)";
         let current = document.getElementById('answer2').innerHTML;
-        document.getElementById('answer2').innerHTML = "&#10004" + " " + current;
+        document.getElementById('answer2').innerHTML = current.replace("<div> ", "<div> &#10004 ");
     }else if(correct == 3){
         document.getElementById('answer1').style.filter = "grayscale(50%)";
         document.getElementById('answer2').style.filter = "grayscale(50%)";
         document.getElementById('answer4').style.filter = "grayscale(50%)";
         let current = document.getElementById('answer3').innerHTML;
-        document.getElementById('answer3').innerHTML = "&#10004" + " " + current;
+        document.getElementById('answer3').innerHTML = current.replace("<div> ", "<div> &#10004 ");
     }else if(correct == 4){
         document.getElementById('answer1').style.filter = "grayscale(50%)";
         document.getElementById('answer2').style.filter = "grayscale(50%)";
         document.getElementById('answer3').style.filter = "grayscale(50%)";
         let current = document.getElementById('answer4').innerHTML;
-        document.getElementById('answer4').innerHTML = "&#10004" + " " + current;
+        document.getElementById('answer4').innerHTML = current.replace("<div> ", "<div> &#10004 ");
     }
     
     for(let i = 0; i < playerData.length; i++){
