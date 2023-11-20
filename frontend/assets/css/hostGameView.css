@@ -42,6 +42,12 @@
     width: 50%;
     text-align: center;
 }
+#answer1 > div,
+#answer2 > div,
+#answer3 > div,
+#answer4 > div {
+    height: 30px;
+}
 .square{
     border: none;
     padding: 15px 32px;

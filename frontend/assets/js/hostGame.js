@@ -15,7 +15,7 @@ socket.on('noGameFound', function(){
 });
 
 function imgHtml(ans) {
-    let template = `<div> ${ans}</div><img style="height:250px;" src="/assets/img/Q1/${ans}.png" />"`
+    let template = `<div> ${ans}</div><img style="height:250px;" src="/assets/img/Q1/${ans}.png" />`
     return template
 }
 
