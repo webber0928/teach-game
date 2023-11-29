@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>智慧語言學習 DEMO</title>
+        <!-- <link rel = "stylesheet" href = "assets/css/index.css"> -->
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        Hello
+        <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+        <script>
+            const socket = io(); // 根据你的服务器地址和端口
+
+            socket.on('connect', () => {
+                console.log('Connected to server');
+                // 连接成功后可以执行一些操作
+            });
+
+            socket.on('disconnect', () => {
+                console.log('Disconnected from server');
+            });
+        </script>
+    </body>
+</html>

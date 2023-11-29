@@ -14,12 +14,14 @@ socket.on('noGameFound', function(){
     window.location.href = '../';
 });
 //If the host disconnects, then the player is booted to main screen
-socket.on('hostDisconnect', function(){
+socket.on('hostDisconnect', function(gamePin){
+    if (gamePin != socket.id) return
     window.location.href = '../';
 });
 
 //When the host clicks start game, the player screen changes
-socket.on('gameStartedPlayer', function(){
+socket.on('gameStartedPlayer', function(gamePin){
+    if (gamePin != socket.id) return
     window.location.href="/player/game/" + "?id=" + socket.id;
 });
 

@@ -78,7 +78,8 @@ socket.on('nextQuestionPlayer', function(){
     
 });
 
-socket.on('hostDisconnect', function(){
+socket.on('hostDisconnect', function(gamePin){
+    if (gamePin != socket.id) return
     window.location.href = "../../";
 });
 
