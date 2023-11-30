@@ -45,7 +45,7 @@ io.on('connection', (socket) => {
                 
                 //A kahoot was found with the id passed in url
                 if(result[0] !== undefined){
-                    var gamePin = Math.floor(Math.random()*90000) + 10000; //new pin for game
+                    var gamePin = Math.floor(Math.random()*900) + 100; //new pin for game
 
                     games.addGame(gamePin, socket.id, false, {playersAnswered: 0, questionLive: false, gameid: data.id, question: 1}); //Creates a game with pin and host id
 

@@ -177,6 +177,15 @@ socket.on('GameOver', function(data){
     document.getElementById('winner3').innerHTML = "3. " + data.num3;
     document.getElementById('winner4').innerHTML = "4. " + data.num4; 
     document.getElementById('winner5').innerHTML = "5. " + data.num5;
+
+    var body = document.querySelector('body');
+
+    // 設定各種樣式屬性
+    body.style.backgroundImage = 'url(/assets/img/kv_bg.jpg)';
+    body.style.backgroundSize = 'cover';
+    body.style.backgroundRepeat = 'no-repeat';
+    body.style.backgroundPosition = 'center 99%';
+    body.style.backgroundColor = '#11377e';
 });
 
 

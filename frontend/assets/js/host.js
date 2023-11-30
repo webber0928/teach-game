@@ -20,7 +20,7 @@ socket.on('updatePlayerLobby', function(data){
     document.getElementById('players').value = "";
     
     for(let i = 0; i < data.length; i++){
-        document.getElementById('players').value += data[i].name + "\n";
+        document.getElementById('players').value += data[i].name + ", ";
     }
     
 });
