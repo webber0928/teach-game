@@ -12,9 +12,39 @@
         <div class="loader"></div>
         <br/>
     </body>
-    <script src = "../socket.io/socket.io.js"></script>
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src = "../assets/js/libs/jqueryLibrary.js"></script>
     <script src = "../assets/js/libs/deparam.js"></script>
-    <script src = "../assets/js/lobby.js"></script>
+    <script>
+        $(document).ready(function() {
+            var socket = io();
+
+            socket.on('connect', function() {
+                let params = jQuery.deparam(window.location.search);
+                console.log(params)
+                socket.emit('player-join', params);
+            });
+
+            //Boot player back to join screen if game pin has no match
+            socket.on('noGameFound', function(){
+                console.log('noGameFound')
+                // window.location.href = '../';
+            });
+            //If the host disconnects, then the player is booted to main screen
+            socket.on('hostDisconnect', function(gamePin){
+                console.log('noGameFound')
+                // if (gamePin != socket.id) return
+                // window.location.href = '../';
+            });
+
+            //When the host clicks start game, the player screen changes
+            socket.on('gameStartedPlayer', function(gamePin){
+                console.log('gameStartedPlayer')
+                // if (gamePin != socket.id) return
+                // window.location.href="/player/game/" + "?id=" + socket.id;
+            });
+        })
+    </script>
     
 </html>

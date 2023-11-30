@@ -58,7 +58,9 @@ io.on('connection', (socket) => {
                     question: 1
                 });
 
+
                 const game = GAMES.getGame(socket.id)
+                console.log(game)
                 socket.join(game.pin);
 
                 console.log('Game Created with pin:', game.pin); 
@@ -120,6 +122,7 @@ io.on('connection', (socket) => {
             console.log('A user player-join', params);
             
             let gameFound = false;
+            console.log(GAMES.games)
             for(let i = 0; i < GAMES.games.length; i++){
                 if(params.pin == GAMES.games[i].pin){
                     console.log('Player connected to game');
@@ -400,6 +403,9 @@ io.on('connection', (socket) => {
             console.log('A user startGame');
             let game = GAMES.getGame(socket.id);
             game.gameLive = true;
+
+            console.log('L404', game)
+            socket.join(game.pin)
             socket.emit('gameStarted', game.hostId);
         });
         

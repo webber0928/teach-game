@@ -6,40 +6,39 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     </head>
     <body>
-        <a id = "back"href = "../">Back</a>
+        <a id = "back"href = "../">返回</a>
         <h1 id = "title">開始遊戲</h1>
-        <h4 id = "subtitle">選擇下面的課程或是 <a id = "link" href = "quiz-creator/">建立它!</a></h4>
+        <h4 id = "subtitle">選擇下面的課程或 <a id = "link" href = "quiz-creator/">建立!</a></h4>
         <div id = "game-list">
             
         </div>
         
         
         <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-            var socket = io();
-
-            socket.on('connect', function(){
-                socket.emit('requestDbNames');//Get database names to display to user
-            });
-
-            socket.on('gameNamesData', function(data){
-                for(let i = 0; i < Object.keys(data).length; i++){
-                    let div = document.getElementById('game-list');
-                    let button = document.createElement('button');
-                    
-                    button.innerHTML = data[i].name;
-                    button.setAttribute('onClick', "startGame('" + data[i].id + "')");
-                    button.setAttribute('id', 'gameButton');
-                    
-                    div.appendChild(button);
-                    div.appendChild(document.createElement('br'));
-                    div.appendChild(document.createElement('br'));
-                }
-            });
-
             function startGame(data){
                 window.location.href="/host/" + "?id=" + data;
             }
+
+            $(document).ready(function(){
+                let socket = io();
+                socket.on('connect', function(){
+                    socket.emit('requestDbNames');
+                });
+
+                socket.on('gameNamesData', (data=[]) => {
+                    data.forEach(function(item) {
+                        let newButton = $("<button></button>");
+                        newButton.text(item.name).attr("id", "gameButton").data("gameId", item.id);
+                        $("#game-list").append(newButton).append($("<br />"));
+                        newButton.click(function(){
+                            let gameId = $(this).data("gameId");
+                            startGame(gameId)
+                        });
+                    })
+                })
+            })
         </script>
     </body>
 </html>
