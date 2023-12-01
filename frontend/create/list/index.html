@@ -2,56 +2,55 @@
 <html>
     <head>
         <title>遊戲列表 | 智慧語言學習 DEMO</title>
-        <link rel="stylesheet" href = "../../assets/css/create.css">
-        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link rel="stylesheet" href="../../assets/css/create.css" />
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
     </head>
     <body>
-        <a id = "back"href = "../">上一頁</a>
-        <h1 id = "title">遊戲列表</h1>
-        <div id = "game-list">
-            
-        </div>
-        
-        
-        <script src = "../../socket.io/socket.io.js"></script>
+        <a id="back" href="../">上一頁</a>
+        <h1 id="title">遊戲列表</h1>
+        <div id="game-list"></div>
+
+        <script src="../../socket.io/socket.io.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-            $(document).ready(function() {
-                function startGame(data){
-                    window.location.href="/host/" + "?id=" + data;
+            $(document).ready(function () {
+                function startGame(data) {
+                    window.location.href = '/host/' + '?id=' + data;
                 }
                 var socket = io();
 
-                socket.on('connect', function(){
+                socket.on('connect', function () {
                     socket.emit('requestDbNames');
                 });
 
-                socket.on('gameNamesData', function(data){
+                socket.on('gameNamesData', function (data) {
                     let gameList = $('#game-list');
                     $.each(data, (idx, item) => {
                         let itemDiv = $('<div style="width: 300px;float: left"></div>');
                         let newBtn = $(`<button class="gameButton">${item.name}</button>`);
-                        newBtn.data("data", item.id); 
+                        newBtn.data('data', item.id);
                         itemDiv.append(newBtn);
-                        newBtn.click(function(){
-                            let id = $(this).data("data");
-                            window.location.href="/host/" + "?id=" + id;
+                        newBtn.click(function () {
+                            let id = $(this).data('data');
+                            window.location.href = '/host/' + '?id=' + id;
                         });
-                        item.questions.forEach((obj, i)=> {
+                        item.questions.forEach((obj, i) => {
                             let quDiv = $('<div style="border: 1px solid;background:#fff"></div>');
-                            let answers = obj.answers.join(', ')
-                            quDiv.append(`<h3>Q${i+1}: ${obj.question}</h3>`);
+                            let answers = obj.answers.join(', ');
+                            quDiv.append(`<h3>Q${i + 1}: ${obj.question}</h3>`);
                             quDiv.append(`<p>${answers}</p>`);
-                            obj.answers.forEach((ans)=> {
-                                quDiv.append(`<img style="height:50px;" src="/assets/img/Q1/${ans}.png" onerror="this.src='/assets/img/failed.jpeg'"  />`)
-                            })
+                            obj.answers.forEach((ans) => {
+                                quDiv.append(
+                                    `<img style="height:50px;" src="/assets/img/Q1/${ans}.png" onerror="this.src='/assets/img/failed.jpeg'"  />`
+                                );
+                            });
                             itemDiv.append(quDiv);
                         });
                         gameList.append(itemDiv);
-                    })
+                    });
                     gameList.append('<div style="clear: both;"></div>');
                 });
-            })
+            });
         </script>
     </body>
 </html>
