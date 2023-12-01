@@ -2,51 +2,270 @@
 <html>
     <head>
         <title>遊戲 | 智慧語言學習 DEMO</title>
-        <meta name="referrer" content="no-referrer">
-        <link rel = "stylesheet" href = "../../assets/css/hostGameView.css">
-        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Tajawal" rel="stylesheet">
+        <meta name="referrer" content="no-referrer" />
+        <link rel="stylesheet" href="../../assets/css/hostGameView.css" />
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Tajawal" rel="stylesheet" />
     </head>
     <body>
-        <h4 id = "questionNum">問題 1 / x</h4>
-        <h4 id = "playersAnswered">玩家回答: 0 / x</h4>
-        <h3 id = "timerText">剩餘時間:<span id = "num"> -- </span></h3>
-        
-        
-        <div class = "square" id = "square1"></div>
-        <div class = "square" id = "square2"></div>
-        <div class = "square" id = "square3"></div>
-        <div class = "square" id = "square4"></div>
-        
-        <h2 id="question" style="display:none">問題</h2>
-        <audio controls id="tts-audio" style="display: none" src="https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=apple"></audio>
-        <br>
-        <button id="play-btn" onclick="playQuestion()"><img id="trumpet" style="width: 70px;" src="../../assets/img/trumpet.gif" /></button>
-        <br>
-        <br>
+        <!-- <h4>
+            <span id="questionNum">問題 1 / x</span>
+            <span id="playersAnswered">玩家回答: 0 / x</span>
+            <span id="timerText">剩餘時間:<span id="num"> -- </span></span>
+        </h4> -->
+        <h4 id="questionNum">問題 1 / x</h4>
+        <h4 id="playersAnswered">玩家回答: 0 / x</h4>
+        <h3 id="timerText">剩餘時間:<span id="num"> -- </span></h3>
+
+        <div class="square" id="square1"></div>
+        <div class="square" id="square2"></div>
+        <div class="square" id="square3"></div>
+        <div class="square" id="square4"></div>
+
+        <h2 id="question" style="display: none">問題</h2>
+        <audio
+            controls
+            id="tts-audio"
+            style="display: none"
+            src="https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=apple"
+        ></audio>
+        <br />
+        <button id="play-btn" onclick="playQuestion()">
+            <img id="trumpet" style="width: 70px" src="../../assets/img/trumpet.gif" />
+        </button>
+        <br />
+        <br />
         <div>
             <div id="answer1">回答</div>
             <div id="answer2">回答</div>
             <div id="answer3">回答</div>
             <div id="answer4">回答</div>
-            <div style="clear: both;"></div>
+            <div style="clear: both"></div>
         </div>
-        
-        <br>
-        <button onclick = "nextQuestion()" id = "nextQButton">下個問題</button>
-        
-        <div id="winnerBox" style="width: 500px;margin: auto;background-image: url(/assets/img/flag.svg);background-repeat: no-repeat;background-position: center;padding-bottom: 120px;">
-        <h2 id = "winnerTitle">英雄榜</h2>
-        <h3 id = "winner1">1.</h3>
-        <h3 id = "winner2">2.</h3>
-        <h3 id = "winner3">3.</h3>
-        <h3 id = "winner4">4.</h3>
-        <h3 id = "winner5">5.</h3>
+
+        <br />
+        <button onclick="nextQuestion()" id="nextQButton">下個問題</button>
+
+        <div
+            id="winnerBox"
+            style="
+                width: 500px;
+                margin: auto;
+                background-image: url(/assets/img/flag.svg);
+                background-repeat: no-repeat;
+                background-position: center;
+                padding-bottom: 120px;
+            "
+        >
+            <h2 id="winnerTitle">英雄榜</h2>
+            <h3 id="winner1">1.</h3>
+            <h3 id="winner2">2.</h3>
+            <h3 id="winner3">3.</h3>
+            <h3 id="winner4">4.</h3>
+            <h3 id="winner5">5.</h3>
         </div>
-        
-        <script src = "../../socket.io/socket.io.js"></script>
-        <script src = "../../assets/js/libs/jqueryLibrary.js"></script>
-        <script src = "../../assets/js/libs/deparam.js"></script>
-        <script src = "../../assets/js/hostGame.js"></script>
+
+        <script src="../../socket.io/socket.io.js"></script>
+        <script src="../../assets/js/libs/jqueryLibrary.js"></script>
+        <script src="../../assets/js/libs/deparam.js"></script>
+        <!-- <script src = "../../assets/js/hostGame.js111"> -->
+        <script>
+            let socket = io();
+            let params = jQuery.deparam(window.location.search);
+            let timer;
+            let time = 20;
+
+            socket.on('connect', function () {
+                socket.emit('host-join-game', params);
+            });
+
+            socket.on('noGameFound', function () {
+                window.location.href = '../../';
+            });
+
+            function imgHtml(ans) {
+                let template = `<div> ${ans}</div><img style="height:250px;" src="/assets/img/Q1/${ans}.png" />`;
+                return template;
+            }
+
+            socket.on('gameQuestions', function (data) {
+                document.getElementById('question').innerHTML = data.q1;
+                // document.getElementById('answer1').innerHTML = imgHtml(data.a1);
+                // document.getElementById('answer2').innerHTML = imgHtml(data.a2);
+                // document.getElementById('answer3').innerHTML = imgHtml(data.a3);
+                // document.getElementById('answer4').innerHTML = imgHtml(data.a4);
+                document.getElementById('answer1').innerHTML = imgHtml('△');
+                document.getElementById('answer2').innerHTML = imgHtml('□');
+                document.getElementById('answer3').innerHTML = imgHtml('○');
+                document.getElementById('answer4').innerHTML = imgHtml('◊');
+                let correctAnswer = data.correct;
+                document.getElementById('playersAnswered').innerHTML = '玩家回答 0 / ' + data.playersInGame;
+                document.getElementById('questionNum').innerHTML = `問題 ${data.questionNum} / ${data.questionLen}`;
+                updateTimer();
+            });
+
+            socket.on('updatePlayersAnswered', function (data) {
+                document.getElementById('playersAnswered').innerHTML =
+                    '玩家回答 ' + data.playersAnswered + ' / ' + data.playersInGame;
+            });
+
+            socket.on('questionOver', function (playerData, correct) {
+                clearInterval(timer);
+                let answer1 = 0;
+                let answer2 = 0;
+                let answer3 = 0;
+                let answer4 = 0;
+                let total = 0;
+                //Hide elements on page
+                document.getElementById('playersAnswered').style.display = 'none';
+                document.getElementById('timerText').style.display = 'none';
+                document.getElementById('play-btn').style.display = 'none';
+
+                //Shows user correct answer with effects on elements
+                if (correct == 1) {
+                    document.getElementById('answer2').style.filter = 'grayscale(80%)';
+                    document.getElementById('answer3').style.filter = 'grayscale(80%)';
+                    document.getElementById('answer4').style.filter = 'grayscale(80%)';
+                    let current = document.getElementById('answer1').innerHTML;
+                    document.getElementById('answer1').innerHTML = current.replace('<div> ', '<div> &#10004 ');
+                } else if (correct == 2) {
+                    document.getElementById('answer1').style.filter = 'grayscale(80%)';
+                    document.getElementById('answer3').style.filter = 'grayscale(80%)';
+                    document.getElementById('answer4').style.filter = 'grayscale(80%)';
+                    let current = document.getElementById('answer2').innerHTML;
+                    document.getElementById('answer2').innerHTML = current.replace('<div> ', '<div> &#10004 ');
+                } else if (correct == 3) {
+                    document.getElementById('answer1').style.filter = 'grayscale(80%)';
+                    document.getElementById('answer2').style.filter = 'grayscale(80%)';
+                    document.getElementById('answer4').style.filter = 'grayscale(80%)';
+                    let current = document.getElementById('answer3').innerHTML;
+                    document.getElementById('answer3').innerHTML = current.replace('<div> ', '<div> &#10004 ');
+                } else if (correct == 4) {
+                    document.getElementById('answer1').style.filter = 'grayscale(80%)';
+                    document.getElementById('answer2').style.filter = 'grayscale(80%)';
+                    document.getElementById('answer3').style.filter = 'grayscale(80%)';
+                    let current = document.getElementById('answer4').innerHTML;
+                    document.getElementById('answer4').innerHTML = current.replace('<div> ', '<div> &#10004 ');
+                }
+
+                for (let i = 0; i < playerData.length; i++) {
+                    if (playerData[i].gameData.answer == 1) {
+                        answer1 += 1;
+                    } else if (playerData[i].gameData.answer == 2) {
+                        answer2 += 1;
+                    } else if (playerData[i].gameData.answer == 3) {
+                        answer3 += 1;
+                    } else if (playerData[i].gameData.answer == 4) {
+                        answer4 += 1;
+                    }
+                    total += 1;
+                }
+
+                //Gets values for graph
+                answer1 = (answer1 / total) * 100;
+                answer2 = (answer2 / total) * 100;
+                answer3 = (answer3 / total) * 100;
+                answer4 = (answer4 / total) * 100;
+
+                document.getElementById('square1').style.display = 'inline-block';
+                document.getElementById('square2').style.display = 'inline-block';
+                document.getElementById('square3').style.display = 'inline-block';
+                document.getElementById('square4').style.display = 'inline-block';
+
+                document.getElementById('square1').style.height = answer1 + 'px';
+                document.getElementById('square2').style.height = answer2 + 'px';
+                document.getElementById('square3').style.height = answer3 + 'px';
+                document.getElementById('square4').style.height = answer4 + 'px';
+
+                document.getElementById('nextQButton').style.display = 'block';
+            });
+
+            function playQuestion() {
+                // document.getElementById('trumpet').style.display = "block";
+                let q = document.getElementById('question').textContent;
+                let audio = document.getElementById('tts-audio');
+                audio.src = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${q}`;
+                audio.playbackRate = 0.7;
+                audio.play();
+                // document.getElementById('trumpet').style.display = "none";
+                // play-btn
+            }
+
+            function nextQuestion() {
+                document.getElementById('nextQButton').style.display = 'none';
+                document.getElementById('square1').style.display = 'none';
+                document.getElementById('square2').style.display = 'none';
+                document.getElementById('square3').style.display = 'none';
+                document.getElementById('square4').style.display = 'none';
+
+                document.getElementById('answer1').style.filter = 'none';
+                document.getElementById('answer2').style.filter = 'none';
+                document.getElementById('answer3').style.filter = 'none';
+                document.getElementById('answer4').style.filter = 'none';
+
+                document.getElementById('playersAnswered').style.display = 'block';
+                document.getElementById('play-btn').style.display = 'block';
+                document.getElementById('timerText').style.display = 'block';
+                document.getElementById('num').innerHTML = ` ${time}`;
+                socket.emit('nextQuestion'); //Tell server to start new question
+            }
+
+            function updateTimer() {
+                time = 20;
+                timer = setInterval(function () {
+                    time -= 1;
+                    document.getElementById('num').textContent = ' ' + time;
+                    if (time == 0) {
+                        socket.emit('timeUp');
+                    }
+                }, 1000);
+            }
+            socket.on('GameOver', function (data) {
+                document.getElementById('nextQButton').style.display = 'none';
+                document.getElementById('square1').style.display = 'none';
+                document.getElementById('square2').style.display = 'none';
+                document.getElementById('square3').style.display = 'none';
+                document.getElementById('square4').style.display = 'none';
+
+                document.getElementById('answer1').style.display = 'none';
+                document.getElementById('answer2').style.display = 'none';
+                document.getElementById('answer3').style.display = 'none';
+                document.getElementById('answer4').style.display = 'none';
+                document.getElementById('timerText').innerHTML = '';
+                document.getElementById('question').innerHTML = 'GAME OVER';
+                document.getElementById('playersAnswered').innerHTML = '';
+                document.getElementById('play-btn').style.display = 'none';
+
+                // document.getElementById('winner1').style.display = "block";
+                // document.getElementById('winner2').style.display = "block";
+                // document.getElementById('winner3').style.display = "block";
+                // document.getElementById('winner4').style.display = "block";
+                // document.getElementById('winner5').style.display = "block";
+                // document.getElementById('winnerTitle').style.display = "block";
+                document.getElementById('winnerBox').style.display = 'block';
+
+                document.getElementById('winner1').innerHTML = '1. ' + data.num1;
+                document.getElementById('winner2').innerHTML = '2. ' + data.num2;
+                document.getElementById('winner3').innerHTML = '3. ' + data.num3;
+                document.getElementById('winner4').innerHTML = '4. ' + data.num4;
+                document.getElementById('winner5').innerHTML = '5. ' + data.num5;
+
+                var body = document.querySelector('body');
+
+                // 設定各種樣式屬性
+                body.style.backgroundImage = 'url(/assets/img/kv_bg.jpg)';
+                body.style.backgroundSize = 'cover';
+                body.style.backgroundRepeat = 'no-repeat';
+                body.style.backgroundPosition = 'center';
+                body.style.backgroundColor = '#11377e';
+            });
+
+            socket.on('getTime', function (player) {
+                socket.emit('time', {
+                    player: player,
+                    time: time,
+                });
+            });
+        </script>
     </body>
 </html>
