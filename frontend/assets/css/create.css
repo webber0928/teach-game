@@ -43,14 +43,17 @@ body {
 }
 #game-list{
     text-align: center;
+    width: 900px;
+    margin: auto;
 }
 #back{
     color: white;
     text-align: center;
 }
-#gameButton{
+.gameButton{
     font-size:80px;
+    margin: 17px;
 }
-#gameButton:hover{
+.gameButton:hover{
     cursor: pointer;
 }
