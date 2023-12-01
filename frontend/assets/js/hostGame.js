@@ -165,12 +165,14 @@ socket.on('GameOver', function(data){
     
     
     
-    document.getElementById('winner1').style.display = "block";
-    document.getElementById('winner2').style.display = "block";
-    document.getElementById('winner3').style.display = "block";
-    document.getElementById('winner4').style.display = "block";
-    document.getElementById('winner5').style.display = "block";
-    document.getElementById('winnerTitle').style.display = "block";
+    // document.getElementById('winner1').style.display = "block";
+    // document.getElementById('winner2').style.display = "block";
+    // document.getElementById('winner3').style.display = "block";
+    // document.getElementById('winner4').style.display = "block";
+    // document.getElementById('winner5').style.display = "block";
+    // document.getElementById('winnerTitle').style.display = "block";
+    document.getElementById('winnerBox').style.display = "block";
+    
     
     document.getElementById('winner1').innerHTML = "1. " + data.num1;
     document.getElementById('winner2').innerHTML = "2. " + data.num2;
@@ -184,7 +186,7 @@ socket.on('GameOver', function(data){
     body.style.backgroundImage = 'url(/assets/img/kv_bg.jpg)';
     body.style.backgroundSize = 'cover';
     body.style.backgroundRepeat = 'no-repeat';
-    body.style.backgroundPosition = 'center 99%';
+    body.style.backgroundPosition = 'center';
     body.style.backgroundColor = '#11377e';
 });
 
