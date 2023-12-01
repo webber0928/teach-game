@@ -2,24 +2,61 @@
 <html>
     <head>
         <title>遊戲主持 | 智慧語言學習 DEMO</title>
-        <link rel = "stylesheet" href = "../assets/css/host.css">
-        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Tajawal" rel="stylesheet">
+        <link rel="stylesheet" href="../assets/css/host.css" />
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Tajawal" rel="stylesheet" />
     </head>
     <body>
-        <audio style="display:none" autoplay="autoplay" controls="controls"loop="loop" preload="auto" src="../../assets/audio/demo-music.mp3"></audio>
-        <button id = "cancel" onclick = "endGame()">取消遊戲</button>
-        <h2 id = "title">加入遊戲使用代號: </h2>
-        <h1 id = "gamePinText"></h1>
-        <textarea style = "width: 700px; height: 300px;" readonly id = 'players'></textarea>
-        <br>
-        <button id = 'start' onclick = "startGame()">開始遊戲</button>
-        <br>
-        <br>
-        <script src = "../socket.io/socket.io.js"></script>
-        <script src = "../assets/js/libs/jqueryLibrary.js"></script>
-        <script src = "../assets/js/libs//deparam.js"></script>
-        <script src = "../assets/js/host.js"></script>
+        <audio style="display: none" autoplay="autoplay" controls="controls" loop="loop" preload="auto" src="../../assets/audio/demo-music.mp3"></audio>
+        <button id="cancel" onclick="endGame()">返回</button>
+        <h2 id="title">加入代號為:</h2>
+        <h1 id="gamePinText"></h1>
+        <textarea style="width: 700px; height: 300px" readonly id="players"></textarea>
+        <br />
+        <button id="start" onclick="startGame()">開始遊戲</button>
+        <br />
+        <br />
+        <script src="../socket.io/socket.io.js"></script>
+        <script src="../assets/js/libs/jqueryLibrary.js"></script>
+        <script src="../assets/js/libs/deparam.js"></script>
+        <script>
+            var socket = io();
+            var params = jQuery.deparam(window.location.search);
+
+            socket.on('connect', function () {
+                document.getElementById('players').value = '';
+                socket.emit('host-join', params);
+            });
+
+            socket.on('showGamePin', function (data) {
+                document.getElementById('gamePinText').innerHTML = data.pin;
+            });
+
+            socket.on('updatePlayerLobby', function (data) {
+                document.getElementById('players').value = '';
+                let emoji = ['🐭','🐵','🐶','🐷','🐺','🐤','🐧','🐔','🦊','🦄','🦁','🐻','🐯','🐱','🐰','🐴','🐼','🐹','🐸']
+
+                for (let i = 0; i < data.length; i++) {
+                    let str = (i?', ': '') + emoji[Math.floor(Math.random()*emoji.length)] + data[i].name
+                    document.getElementById('players').value += str;
+                }
+            });
+
+            function startGame() {
+                socket.emit('startGame');
+            }
+            function endGame() {
+                window.location.href = '/';
+            }
+
+            socket.on('gameStarted', function (id) {
+                console.log('Game Started!');
+                window.location.href = '/host/game/' + '?id=' + id;
+            });
+
+            socket.on('noGameFound', function () {
+                window.location.href = '../../';
+            });
+        </script>
     </body>
 </html>
-
