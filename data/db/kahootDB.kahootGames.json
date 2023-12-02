@@ -213,7 +213,7 @@
   "name": "Test",
   "questions": [
     {
-      "question": "Birds, warm-blooded creatures with feathers, beaks, and egg-laying abilities, are renowned for their ability to fly.",
+      "question": "Birds, are renowned for their ability to fly.",
       "answers": [
         "bat",
         "duck",
