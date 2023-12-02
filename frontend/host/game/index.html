@@ -83,8 +83,8 @@
                 window.location.href = '../../';
             });
 
-            function imgHtml(ans) {
-                let template = `<div> ${ans}</div><img style="height:250px;" src="/assets/img/Q1/${ans}.png" />`;
+            function imgHtml(ans, text) {
+                let template = `<div> ${text}</div><img style="height:250px;" src="/assets/img/Q1/${ans}.png" />`;
                 return template;
             }
 
@@ -94,10 +94,10 @@
                 // document.getElementById('answer2').innerHTML = imgHtml(data.a2);
                 // document.getElementById('answer3').innerHTML = imgHtml(data.a3);
                 // document.getElementById('answer4').innerHTML = imgHtml(data.a4);
-                document.getElementById('answer1').innerHTML = imgHtml('△');
-                document.getElementById('answer2').innerHTML = imgHtml('□');
-                document.getElementById('answer3').innerHTML = imgHtml('○');
-                document.getElementById('answer4').innerHTML = imgHtml('◊');
+                document.getElementById('answer1').innerHTML = imgHtml(data.a1, '△');
+                document.getElementById('answer2').innerHTML = imgHtml(data.a2, '□');
+                document.getElementById('answer3').innerHTML = imgHtml(data.a3, '○');
+                document.getElementById('answer4').innerHTML = imgHtml(data.a4, '◊');
                 let correctAnswer = data.correct;
                 document.getElementById('playersAnswered').innerHTML = '玩家回答 0 / ' + data.playersInGame;
                 document.getElementById('questionNum').innerHTML = `問題 ${data.questionNum} / ${data.questionLen}`;
