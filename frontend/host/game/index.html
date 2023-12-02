@@ -72,7 +72,7 @@
         <script>
             let socket = io();
             let params = jQuery.deparam(window.location.search);
-            let timer;
+            let timer, repeatingInterval;
             let time = 20;
 
             socket.on('connect', function () {
@@ -102,6 +102,11 @@
                 document.getElementById('playersAnswered').innerHTML = '玩家回答 0 / ' + data.playersInGame;
                 document.getElementById('questionNum').innerHTML = `問題 ${data.questionNum} / ${data.questionLen}`;
                 updateTimer();
+                
+                playQuestion()
+                repeatingInterval = setInterval(function() {
+                    playQuestion()
+                }, 6000);
             });
 
             socket.on('updatePlayersAnswered', function (data) {
@@ -111,6 +116,7 @@
 
             socket.on('questionOver', function (playerData, correct) {
                 clearInterval(timer);
+                clearInterval(repeatingInterval);
                 let answer1 = 0;
                 let answer2 = 0;
                 let answer3 = 0;
@@ -123,27 +129,27 @@
 
                 //Shows user correct answer with effects on elements
                 if (correct == 1) {
-                    document.getElementById('answer2').style.filter = 'grayscale(80%)';
-                    document.getElementById('answer3').style.filter = 'grayscale(80%)';
-                    document.getElementById('answer4').style.filter = 'grayscale(80%)';
+                    document.getElementById('answer2').style.filter = 'brightness(0.2)';
+                    document.getElementById('answer3').style.filter = 'brightness(0.2)';
+                    document.getElementById('answer4').style.filter = 'brightness(0.2)';
                     let current = document.getElementById('answer1').innerHTML;
                     document.getElementById('answer1').innerHTML = current.replace('<div> ', '<div> &#10004 ');
                 } else if (correct == 2) {
-                    document.getElementById('answer1').style.filter = 'grayscale(80%)';
-                    document.getElementById('answer3').style.filter = 'grayscale(80%)';
-                    document.getElementById('answer4').style.filter = 'grayscale(80%)';
+                    document.getElementById('answer1').style.filter = 'brightness(0.2)';
+                    document.getElementById('answer3').style.filter = 'brightness(0.2)';
+                    document.getElementById('answer4').style.filter = 'brightness(0.2)';
                     let current = document.getElementById('answer2').innerHTML;
                     document.getElementById('answer2').innerHTML = current.replace('<div> ', '<div> &#10004 ');
                 } else if (correct == 3) {
-                    document.getElementById('answer1').style.filter = 'grayscale(80%)';
-                    document.getElementById('answer2').style.filter = 'grayscale(80%)';
-                    document.getElementById('answer4').style.filter = 'grayscale(80%)';
+                    document.getElementById('answer1').style.filter = 'brightness(0.2)';
+                    document.getElementById('answer2').style.filter = 'brightness(0.2)';
+                    document.getElementById('answer4').style.filter = 'brightness(0.2)';
                     let current = document.getElementById('answer3').innerHTML;
                     document.getElementById('answer3').innerHTML = current.replace('<div> ', '<div> &#10004 ');
                 } else if (correct == 4) {
-                    document.getElementById('answer1').style.filter = 'grayscale(80%)';
-                    document.getElementById('answer2').style.filter = 'grayscale(80%)';
-                    document.getElementById('answer3').style.filter = 'grayscale(80%)';
+                    document.getElementById('answer1').style.filter = 'brightness(0.2)';
+                    document.getElementById('answer2').style.filter = 'brightness(0.2)';
+                    document.getElementById('answer3').style.filter = 'brightness(0.2)';
                     let current = document.getElementById('answer4').innerHTML;
                     document.getElementById('answer4').innerHTML = current.replace('<div> ', '<div> &#10004 ');
                 }
@@ -185,7 +191,8 @@
                 let q = document.getElementById('question').textContent;
                 let audio = document.getElementById('tts-audio');
                 audio.src = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${q}`;
-                audio.playbackRate = 0.7;
+                console.log(`https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${q}`)
+                audio.playbackRate = 1;
                 audio.play();
                 // document.getElementById('trumpet').style.display = "none";
                 // play-btn
@@ -221,6 +228,8 @@
                 }, 1000);
             }
             socket.on('GameOver', function (data) {
+                clearInterval(repeatingInterval);
+
                 document.getElementById('nextQButton').style.display = 'none';
                 document.getElementById('square1').style.display = 'none';
                 document.getElementById('square2').style.display = 'none';
@@ -266,6 +275,25 @@
                     time: time,
                 });
             });
+
+            // let intervalId = setTimeout(function() {
+            //     console.log('執行一次');
+            //     playQuestion()
+                
+            //     // 每 5 秒執行一次
+            //     let repeatingInterval = setInterval(function() {
+            //         playQuestion()
+            //     }, 5000);
+
+            //     // 結束定時器的函式
+            //     function stopTimer() {
+            //         clearInterval(repeatingInterval);
+            //         console.log('定時器已停止');
+            //     }
+
+            //     // 在這裡呼叫 stopTimer() 以停止定時器
+            //     setTimeout(stopTimer, 20000); // 在 20 秒後停止定時器
+            // }, 3000);
         </script>
     </body>
 </html>
