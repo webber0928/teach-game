@@ -82,10 +82,31 @@
 }
 #timerText{
     font-family: 'Raleway', sans-serif;
+    display: block;
+    /* margin-right: 25px;
+    margin-left: 25px; */
+    width: 170px;
+    height: 170px;
+    background: #111;
+    text-align: center;
+    position: absolute;
+    border-radius: 50%;
+    top: 35px;
+    left: 50%;
+    margin-left: -85px;
 }
 #num{
     font-family: 'Tajawal', sans-serif;
-    font-size: 35px;
+    /* font-size: 35px; */
+    color: #fff;
+    font-size: 80px;
+    font-weight: 500;
+    letter-spacing: 3.73px;
+    text-align: center;
+    line-height: 75px;
+    padding-top: 20px;
+    top: 45px;
+    position: relative;
 }
 #playersAnswered{
     font-family: 'Tajawal', sans-serif;
