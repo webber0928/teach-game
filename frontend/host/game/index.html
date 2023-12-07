@@ -85,7 +85,7 @@
             });
 
             function imgHtml(ans, text) {
-                let template = `<div> ${text}</div><img style="height:200px;" src="/assets/img/Q1/${ans}.png" />`;
+                let template = `<div></div><img style="height:200px;" src="/assets/img/Q1/${ans}.png" />`;
                 return template;
             }
 
@@ -107,7 +107,7 @@
                 playQuestion()
                 repeatingInterval = setInterval(function() {
                     playQuestion()
-                }, 4000);
+                }, 4500);
             });
 
             socket.on('updatePlayersAnswered', function (data) {
@@ -134,25 +134,25 @@
                     document.getElementById('answer3').style.filter = 'brightness(0.2)';
                     document.getElementById('answer4').style.filter = 'brightness(0.2)';
                     let current = document.getElementById('answer1').innerHTML;
-                    document.getElementById('answer1').innerHTML = current.replace('<div> ', '<div> &#10004 ');
+                    // document.getElementById('answer1').innerHTML = current.replace('<div> ', '<div> &#10004 ');
                 } else if (correct == 2) {
                     document.getElementById('answer1').style.filter = 'brightness(0.2)';
                     document.getElementById('answer3').style.filter = 'brightness(0.2)';
                     document.getElementById('answer4').style.filter = 'brightness(0.2)';
                     let current = document.getElementById('answer2').innerHTML;
-                    document.getElementById('answer2').innerHTML = current.replace('<div> ', '<div> &#10004 ');
+                    // document.getElementById('answer2').innerHTML = current.replace('<div> ', '<div> &#10004 ');
                 } else if (correct == 3) {
                     document.getElementById('answer1').style.filter = 'brightness(0.2)';
                     document.getElementById('answer2').style.filter = 'brightness(0.2)';
                     document.getElementById('answer4').style.filter = 'brightness(0.2)';
                     let current = document.getElementById('answer3').innerHTML;
-                    document.getElementById('answer3').innerHTML = current.replace('<div> ', '<div> &#10004 ');
+                    // document.getElementById('answer3').innerHTML = current.replace('<div> ', '<div> &#10004 ');
                 } else if (correct == 4) {
                     document.getElementById('answer1').style.filter = 'brightness(0.2)';
                     document.getElementById('answer2').style.filter = 'brightness(0.2)';
                     document.getElementById('answer3').style.filter = 'brightness(0.2)';
                     let current = document.getElementById('answer4').innerHTML;
-                    document.getElementById('answer4').innerHTML = current.replace('<div> ', '<div> &#10004 ');
+                    // document.getElementById('answer4').innerHTML = current.replace('<div> ', '<div> &#10004 ');
                 }
 
                 for (let i = 0; i < playerData.length; i++) {
@@ -214,7 +214,7 @@
                 document.getElementById('playersAnswered').style.display = 'block';
                 document.getElementById('play-btn').style.display = 'block';
                 document.getElementById('timerText').style.display = 'block';
-                document.getElementById('num').innerHTML = ` ${time}`;
+                document.getElementById('num').innerHTML = `20`;
                 socket.emit('nextQuestion'); //Tell server to start new question
             }
 
