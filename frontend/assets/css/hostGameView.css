@@ -107,18 +107,23 @@
     margin-left: -85px;
     color: #fff;
 }
+.time-title {
+    position: relative;
+    top: 27px;
+}
 #num{
     font-family: 'Tajawal', sans-serif;
-    /* font-size: 35px; */
-    color: #fff;
-    font-size: 80px;
-    font-weight: 500;
-    letter-spacing: 3.73px;
+    display: block;
+    width: 150px;
+    height: 134px;
+    background: #111;
     text-align: center;
-    line-height: 75px;
-    padding-top: 20px;
-    top: 0;
-    position: relative;
+    position: absolute;
+    border-radius: 50%;
+    top: 35px;
+    left: 50%;
+    margin-left: -85px;
+    color: #fff;
 }
 #playersAnswered{
     font-family: 'Tajawal', sans-serif;
