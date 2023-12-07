@@ -231,6 +231,7 @@
             socket.on('GameOver', function (data) {
                 clearInterval(repeatingInterval);
 
+                document.getElementById('timerText').style.display = 'none';
                 document.getElementById('nextQButton').style.display = 'none';
                 document.getElementById('square1').style.display = 'none';
                 document.getElementById('square2').style.display = 'none';
