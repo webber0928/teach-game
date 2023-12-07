@@ -8,6 +8,7 @@
         <link href="https://fonts.googleapis.com/css?family=Tajawal" rel="stylesheet" />
     </head>
     <body>
+        <audio id="bg-audio" style="display: none" controls="controls" loop="loop" src="../../assets/audio/demo-music.mp3"></audio>
         <!-- <h4>
             <span id="questionNum">問題 1 / x</span>
             <span id="playersAnswered">玩家回答: 0 / x</span>
@@ -84,7 +85,7 @@
             });
 
             function imgHtml(ans, text) {
-                let template = `<div> ${text}</div><img style="height:250px;" src="/assets/img/Q1/${ans}.png" />`;
+                let template = `<div> ${text}</div><img style="height:200px;" src="/assets/img/Q1/${ans}.png" />`;
                 return template;
             }
 
@@ -106,7 +107,7 @@
                 playQuestion()
                 repeatingInterval = setInterval(function() {
                     playQuestion()
-                }, 6000);
+                }, 4000);
             });
 
             socket.on('updatePlayersAnswered', function (data) {
@@ -252,6 +253,10 @@
                 // document.getElementById('winner5').style.display = "block";
                 // document.getElementById('winnerTitle').style.display = "block";
                 document.getElementById('winnerBox').style.display = 'block';
+
+                let audio = document.getElementById('bg-audio');
+                audio.playbackRate = 1;
+                audio.play();
 
                 document.getElementById('winner1').innerHTML = '1. ' + data.num1;
                 document.getElementById('winner2').innerHTML = '2. ' + data.num2;
