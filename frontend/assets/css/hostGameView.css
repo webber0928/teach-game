@@ -76,6 +76,17 @@
 
 #nextQButton{
     display: none;
+    width: 50%;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 20px;
+    background-color: #3A3B3A;
 }
 #question{
     font-family: 'Raleway', sans-serif;
@@ -111,9 +122,14 @@
 }
 #playersAnswered{
     font-family: 'Tajawal', sans-serif;
+    position: absolute;
+    right: 25px;
 }
 #questionNum{
     font-family: 'Tajawal', sans-serif;
+    text-align: center;
+    font-size: 26px;
+    margin-top: 10px;
 }
 
 #winnerBox {
