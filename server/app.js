@@ -52,8 +52,12 @@ io.on('connection', (socket) => {
                         socket.emit('showGamePin', {
                             pin: game.pin,
                         });
+                        console.log('emit: showGamePin', {
+                            pin: game.pin,
+                        })
                     } else {
                         socket.emit('noGameFound');
+                        console.log('emit: noGameFound')
                     }
                     db.close();
                 });
@@ -102,14 +106,27 @@ io.on('connection', (socket) => {
                             questionNum: 1,
                             questionLen: res[0].questions.length,
                         });
+                        console.log('emit: gameQuestions', {
+                            q1: question,
+                            a1: answer1,
+                            a2: answer2,
+                            a3: answer3,
+                            a4: answer4,
+                            correct: correctAnswer,
+                            playersInGame: playerData.length,
+                            questionNum: 1,
+                            questionLen: res[0].questions.length,
+                        })
                         db.close();
                     });
             });
 
             io.to(game.pin).emit('gameStartedPlayer');
+            console.log('emit: gameStartedPlayer')
             game.gameData.questionLive = true;
         } else {
             socket.emit('noGameFound');
+            console.log('emit: noGameFound')
         }
     });
 
@@ -130,12 +147,14 @@ io.on('connection', (socket) => {
                 var playersInGame = players.getPlayers(hostId);
 
                 io.to(params.pin).emit('updatePlayerLobby', playersInGame);
+                console.log('emit: updatePlayerLobby', playersInGame)
                 gameFound = true;
             }
         }
 
         if (gameFound == false) {
             socket.emit('noGameFound');
+            console.log('emit: noGameFound')
         }
     });
 
@@ -149,8 +168,10 @@ io.on('connection', (socket) => {
 
             var playerData = players.getPlayers(game.hostId);
             socket.emit('playerGameData', playerData);
+            console.log('emit: playerGameData', playerData)
         } else {
             socket.emit('noGameFound');
+            console.log('emit: noGameFound')
         }
     });
 
@@ -169,6 +190,7 @@ io.on('connection', (socket) => {
                 }
 
                 io.to(game.pin).emit('hostDisconnect');
+                console.log('emit: hostDisconnect')
                 socket.leave(game.pin);
             }
         } else {
@@ -184,6 +206,7 @@ io.on('connection', (socket) => {
                     var playersInGame = players.getPlayers(hostId);
 
                     io.to(pin).emit('updatePlayerLobby', playersInGame);
+                    console.log('emit: updatePlayerLobby', playersInGame)
                     socket.leave(pin);
                 }
             }
@@ -217,18 +240,26 @@ io.on('connection', (socket) => {
                         if (num == correctAnswer) {
                             player.gameData.score += 100;
                             io.to(game.pin).emit('getTime', socket.id);
+                            console.log('emit: getTime', socket.id)
+
                             socket.emit('answerResult', true);
+                            console.log('emit: answerResult', true)
                         }
 
                         if (game.gameData.playersAnswered == playerNum.length) {
                             game.gameData.questionLive = false;
                             var playerData = players.getPlayers(game.hostId);
                             io.to(game.pin).emit('questionOver', playerData, correctAnswer);
+                            console.log('emit: answerResult', playerData, correctAnswer)
                         } else {
                             io.to(game.pin).emit('updatePlayersAnswered', {
                                 playersInGame: playerNum.length,
                                 playersAnswered: game.gameData.playersAnswered,
                             });
+                            console.log('emit: updatePlayersAnswered', {
+                                playersInGame: playerNum.length,
+                                playersAnswered: game.gameData.playersAnswered,
+                            })
                         }
 
                         db.close();
@@ -241,6 +272,7 @@ io.on('connection', (socket) => {
         console.log('on: getScore')
         var player = players.getPlayer(socket.id);
         socket.emit('newScore', player.gameData.score);
+        console.log('emit: newScore', player.gameData.score)
     });
 
     socket.on('time', function (data) {
@@ -272,7 +304,7 @@ io.on('connection', (socket) => {
                     if (err) throw err;
                     var correctAnswer = res[0].questions[gameQuestion - 1].correct;
                     io.to(game.pin).emit('questionOver', playerData, correctAnswer);
-
+                    console.log('emit: questionOver', playerData, correctAnswer)
                     db.close();
                 });
         });
@@ -325,6 +357,17 @@ io.on('connection', (socket) => {
                             questionNum: questionNum + 1,
                             questionLen: res[0].questions.length,
                         });
+                        console.log('emit: gameQuestions', {
+                            q1: question,
+                            a1: answer1,
+                            a2: answer2,
+                            a3: answer3,
+                            a4: answer4,
+                            correct: correctAnswer,
+                            playersInGame: playerData.length,
+                            questionNum: questionNum + 1,
+                            questionLen: res[0].questions.length,
+                        })
                         db.close();
                     } else {
                         var playersInGame = players.getPlayers(game.hostId);
@@ -399,11 +442,19 @@ io.on('connection', (socket) => {
                             num4: fourth.name,
                             num5: fifth.name,
                         });
+                        console.log('emit: GameOver', {
+                            num1: first.name,
+                            num2: second.name,
+                            num3: third.name,
+                            num4: fourth.name,
+                            num5: fifth.name,
+                        })
                     }
                 });
         });
 
         io.to(game.pin).emit('nextQuestionPlayer');
+        console.log('emit: nextQuestionPlayer')
     });
 
     socket.on('startGame', () => {
@@ -411,6 +462,7 @@ io.on('connection', (socket) => {
         var game = games.getGame(socket.id);
         game.gameLive = true;
         socket.emit('gameStarted', game.hostId);
+        console.log('emit: gameStarted', game.hostId)
     });
 
     socket.on('requestDbNames', function () {
@@ -424,6 +476,7 @@ io.on('connection', (socket) => {
                 .toArray(function (err, res) {
                     if (err) throw err;
                     socket.emit('gameNamesData', res);
+                    console.log('emit: gameNamesData', res)
                     db.close();
                 });
         });
@@ -453,6 +506,7 @@ io.on('connection', (socket) => {
                     });
                     db.close();
                     socket.emit('startGameFromCreator', num);
+                    console.log('emit: startGameFromCreator', num)
                 });
         });
     });
