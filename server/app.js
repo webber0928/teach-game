@@ -26,7 +26,9 @@ server.listen(3000, () => {
 });
 
 io.on('connection', (socket) => {
+    console.log('on: connection')
     socket.on('host-join', (data) => {
+        console.log('on: host-join', data)
         MongoClient.connect(url, function (err, db) {
             if (err) throw err;
             var dbo = db.db('kahootDB');
@@ -59,6 +61,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('host-join-game', (data) => {
+        console.log('on: host-join-game', data)
         var oldHostId = data.id;
         var game = games.getGame(oldHostId);
         if (game) {
@@ -111,6 +114,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('player-join', (params) => {
+        console.log('on: player-join', params)
         var gameFound = false;
 
         for (var i = 0; i < games.games.length; i++) {
@@ -136,6 +140,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('player-join-game', (data) => {
+        console.log('on: player-join-game', data)
         var player = players.getPlayer(data.id);
         if (player) {
             var game = games.getGame(player.hostId);
@@ -150,6 +155,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
+        console.log('on: disconnect')
         var game = games.getGame(socket.id);
         if (game) {
             if (game.gameLive == false) {
@@ -185,6 +191,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('playerAnswer', function (num) {
+        console.log('on: playerAnswer', num)
         var player = players.getPlayer(socket.id);
         var hostId = player.hostId;
         var playerNum = players.getPlayers(hostId);
@@ -231,11 +238,13 @@ io.on('connection', (socket) => {
     });
 
     socket.on('getScore', function () {
+        console.log('on: getScore')
         var player = players.getPlayer(socket.id);
         socket.emit('newScore', player.gameData.score);
     });
 
     socket.on('time', function (data) {
+        console.log('on: time', data)
         var time = data.time / 20;
         time = time * 100;
         var playerid = data.player;
@@ -244,6 +253,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('timeUp', function () {
+        console.log('on: timeUp')
         var game = games.getGame(socket.id);
         game.gameData.questionLive = false;
         var playerData = players.getPlayers(game.hostId);
@@ -269,6 +279,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('nextQuestion', function () {
+        console.log('on: nextQuestion')
         var playerData = players.getPlayers(socket.id);
 
         for (var i = 0; i < Object.keys(players.players).length; i++) {
@@ -396,12 +407,14 @@ io.on('connection', (socket) => {
     });
 
     socket.on('startGame', () => {
+        console.log('on: startGame')
         var game = games.getGame(socket.id);
         game.gameLive = true;
         socket.emit('gameStarted', game.hostId);
     });
 
     socket.on('requestDbNames', function () {
+        console.log('on: requestDbNames')
         MongoClient.connect(url, function (err, db) {
             if (err) throw err;
 
@@ -417,6 +430,8 @@ io.on('connection', (socket) => {
     });
 
     socket.on('newQuiz', function (data) {
+        console.log('on: newQuiz', data)
+
         MongoClient.connect(url, function (err, db) {
             if (err) throw err;
             var dbo = db.db('kahootDB');
