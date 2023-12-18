@@ -378,78 +378,86 @@ io.on('connection', (socket) => {
                         var fourth = { name: '', score: 0 };
                         var fifth = { name: '', score: 0 };
 
-                        for (var i = 0; i < playersInGame.length; i++) {
-                            console.log(playersInGame[i].gameData.score);
-                            if (playersInGame[i].gameData.score > fifth.score) {
-                                if (playersInGame[i].gameData.score > fourth.score) {
-                                    if (playersInGame[i].gameData.score > third.score) {
-                                        if (playersInGame[i].gameData.score > second.score) {
-                                            if (playersInGame[i].gameData.score > first.score) {
-                                                fifth.name = fourth.name;
-                                                fifth.score = fourth.score;
-
-                                                fourth.name = third.name;
-                                                fourth.score = third.score;
-
-                                                third.name = second.name;
-                                                third.score = second.score;
-
-                                                second.name = first.name;
-                                                second.score = first.score;
-
-                                                first.name = playersInGame[i].name;
-                                                first.score = playersInGame[i].gameData.score;
+                        dbo.collection('gamesRecord').insertOne({
+                            id: parseInt(gameid),
+                            createdAt: Date.now(),
+                            playerData
+                        }, function (err, result) {
+                            if (err) throw err;
+                            for (var i = 0; i < playersInGame.length; i++) {
+                                console.log(playersInGame[i].gameData.score);
+                                if (playersInGame[i].gameData.score > fifth.score) {
+                                    if (playersInGame[i].gameData.score > fourth.score) {
+                                        if (playersInGame[i].gameData.score > third.score) {
+                                            if (playersInGame[i].gameData.score > second.score) {
+                                                if (playersInGame[i].gameData.score > first.score) {
+                                                    fifth.name = fourth.name;
+                                                    fifth.score = fourth.score;
+    
+                                                    fourth.name = third.name;
+                                                    fourth.score = third.score;
+    
+                                                    third.name = second.name;
+                                                    third.score = second.score;
+    
+                                                    second.name = first.name;
+                                                    second.score = first.score;
+    
+                                                    first.name = playersInGame[i].name;
+                                                    first.score = playersInGame[i].gameData.score;
+                                                } else {
+                                                    fifth.name = fourth.name;
+                                                    fifth.score = fourth.score;
+    
+                                                    fourth.name = third.name;
+                                                    fourth.score = third.score;
+    
+                                                    third.name = second.name;
+                                                    third.score = second.score;
+    
+                                                    second.name = playersInGame[i].name;
+                                                    second.score = playersInGame[i].gameData.score;
+                                                }
                                             } else {
                                                 fifth.name = fourth.name;
                                                 fifth.score = fourth.score;
-
+    
                                                 fourth.name = third.name;
                                                 fourth.score = third.score;
-
-                                                third.name = second.name;
-                                                third.score = second.score;
-
-                                                second.name = playersInGame[i].name;
-                                                second.score = playersInGame[i].gameData.score;
+    
+                                                third.name = playersInGame[i].name;
+                                                third.score = playersInGame[i].gameData.score;
                                             }
                                         } else {
                                             fifth.name = fourth.name;
                                             fifth.score = fourth.score;
-
-                                            fourth.name = third.name;
-                                            fourth.score = third.score;
-
-                                            third.name = playersInGame[i].name;
-                                            third.score = playersInGame[i].gameData.score;
+    
+                                            fourth.name = playersInGame[i].name;
+                                            fourth.score = playersInGame[i].gameData.score;
                                         }
                                     } else {
-                                        fifth.name = fourth.name;
-                                        fifth.score = fourth.score;
-
-                                        fourth.name = playersInGame[i].name;
-                                        fourth.score = playersInGame[i].gameData.score;
+                                        fifth.name = playersInGame[i].name;
+                                        fifth.score = playersInGame[i].gameData.score;
                                     }
-                                } else {
-                                    fifth.name = playersInGame[i].name;
-                                    fifth.score = playersInGame[i].gameData.score;
                                 }
                             }
-                        }
-
-                        io.to(game.pin).emit('GameOver', {
-                            num1: first.name,
-                            num2: second.name,
-                            num3: third.name,
-                            num4: fourth.name,
-                            num5: fifth.name,
+    
+                            io.to(game.pin).emit('GameOver', {
+                                num1: first.name,
+                                num2: second.name,
+                                num3: third.name,
+                                num4: fourth.name,
+                                num5: fifth.name,
+                            });
+                            console.log('emit: GameOver', {
+                                num1: first.name,
+                                num2: second.name,
+                                num3: third.name,
+                                num4: fourth.name,
+                                num5: fifth.name,
+                            })
+                            db.close();
                         });
-                        console.log('emit: GameOver', {
-                            num1: first.name,
-                            num2: second.name,
-                            num3: third.name,
-                            num4: fourth.name,
-                            num5: fifth.name,
-                        })
                     }
                 });
         });
