@@ -34,10 +34,9 @@
 
             socket.on('updatePlayerLobby', function (data) {
                 document.getElementById('players').value = '';
-                let emoji = ['🐭','🐵','🐶','🐷','🐺','🐤','🐧','🐔','🦊','🦄','🦁','🐻','🐯','🐱','🐰','🐴','🐼','🐹','🐸']
 
                 for (let i = 0; i < data.length; i++) {
-                    let str = (i?', ': '') + emoji[Math.floor(Math.random()*emoji.length)] + data[i].name
+                    let str = (i?', ': '') + data[i].name
                     document.getElementById('players').value += str;
                 }
             });

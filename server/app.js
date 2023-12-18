@@ -139,11 +139,9 @@ io.on('connection', (socket) => {
                 console.log('Player connected to game');
 
                 var hostId = games.games[i].hostId;
-
-                players.addPlayer(hostId, socket.id, params.name, { score: 0, answer: 0 });
+                players.addPlayer(hostId, socket.id, params.name, { score: 0, answer: 0 }, []);
 
                 socket.join(params.pin);
-
                 var playersInGame = players.getPlayers(hostId);
 
                 io.to(params.pin).emit('updatePlayerLobby', playersInGame);
@@ -219,8 +217,10 @@ io.on('connection', (socket) => {
         var hostId = player.hostId;
         var playerNum = players.getPlayers(hostId);
         var game = games.getGame(hostId);
+
         if (game.gameData.questionLive == true) {
             player.gameData.answer = num;
+            player.answerList.push({question: game.gameData.question,num})
             game.gameData.playersAnswered += 1;
 
             var gameQuestion = game.gameData.question;
@@ -279,8 +279,8 @@ io.on('connection', (socket) => {
         console.log('on: time', data)
         var time = data.time / 20;
         time = time * 100;
-        var playerid = data.player;
-        var player = players.getPlayer(playerid);
+        var playerId = data.player;
+        var player = players.getPlayer(playerId);
         player.gameData.score += time;
     });
 
@@ -313,6 +313,7 @@ io.on('connection', (socket) => {
     socket.on('nextQuestion', function () {
         console.log('on: nextQuestion')
         var playerData = players.getPlayers(socket.id);
+        var game = games.getGame(socket.id);
 
         for (var i = 0; i < Object.keys(players.players).length; i++) {
             if (players.players[i].hostId == socket.id) {

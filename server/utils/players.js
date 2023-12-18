@@ -2,8 +2,15 @@ class Players {
     constructor () {
         this.players = [];
     }
-    addPlayer(hostId, playerId, name, gameData){
-        var player = {hostId, playerId, name, gameData};
+    addPlayer(hostId, playerId, name, gameData, answerList){
+        let emoji = ['🐭','🐵','🐶','🐷','🐺','🐤','🐧','🐔','🦊','🦄','🦁','🐻','🐯','🐱','🐰','🐴','🐼','🐹','🐸']
+        var player = {
+            hostId, 
+            playerId, 
+            name: emoji[Math.floor(Math.random()*emoji.length)] + name, 
+            gameData,
+            answerList
+        };
         this.players.push(player);
         return player;
     }
