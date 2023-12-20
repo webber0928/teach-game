@@ -96,6 +96,7 @@ io.on('connection', (socket) => {
                         var correctAnswer = res[0].questions[0].correct;
 
                         socket.emit('gameQuestions', {
+                            name: res[0].name,
                             q1: question,
                             a1: answer1,
                             a2: answer2,
@@ -147,6 +148,11 @@ io.on('connection', (socket) => {
                 io.to(params.pin).emit('updatePlayerLobby', playersInGame);
                 console.log('emit: updatePlayerLobby', playersInGame)
                 gameFound = true;
+
+                // 中途加入
+                let game = games.getGame(games.games[i].hostId)
+                if(game.gameLive)
+                    io.to(game.pin).emit('gameStartedPlayer');
             }
         }
 
@@ -348,6 +354,7 @@ io.on('connection', (socket) => {
                         var correctAnswer = res[0].questions[questionNum].correct;
 
                         socket.emit('gameQuestions', {
+                            name: res[0].name,
                             q1: question,
                             a1: answer1,
                             a2: answer2,

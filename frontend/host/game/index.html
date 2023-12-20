@@ -103,10 +103,11 @@
                 document.getElementById('questionNum').innerHTML = `問題 ${data.questionNum} / ${data.questionLen}`;
                 updateTimer();
                 
-                playQuestion()
+                playQuestion(data.name)
+                let setTime = data.name == '句子'? 7000: 4500
                 repeatingInterval = setInterval(function() {
-                    playQuestion()
-                }, 4500);
+                    playQuestion(data.name)
+                }, setTime);
             });
 
             socket.on('updatePlayersAnswered', function (data) {
@@ -186,13 +187,14 @@
                 document.getElementById('nextQButton').style.display = 'block';
             });
 
-            function playQuestion() {
+            function playQuestion(name) {
                 // document.getElementById('trumpet').style.display = "block";
                 let q = document.getElementById('question').textContent;
                 let audio = document.getElementById('tts-audio');
+                let playbackRate = name == '句子'? 0.8: 1;
                 audio.src = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${q}`;
                 console.log(`https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${q}`)
-                audio.playbackRate = 1;
+                audio.playbackRate = playbackRate;
                 audio.volume = 1;
                 audio.play();
                 // document.getElementById('trumpet').style.display = "none";
