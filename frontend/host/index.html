@@ -11,6 +11,7 @@
         <button id="cancel" onclick="endGame()">返回</button>
         <h2 id="title">加入代號為:</h2>
         <h1 id="gamePinText"></h1>
+        <div id="member" style="text-align: center;">0 人已加入</div>
         <textarea style="width: 700px; height: 300px" readonly id="players"></textarea>
         <br />
         <button id="start" onclick="startGame()">開始遊戲</button>
@@ -39,6 +40,8 @@
                     let str = (i?', ': '') + data[i].name
                     document.getElementById('players').value += str;
                 }
+
+                document.getElementById('member').innerHTML = `${data.length} 人已加入`;
             });
 
             function startGame() {
