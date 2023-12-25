@@ -3,11 +3,12 @@ class Players {
         this.players = [];
     }
     addPlayer(hostId, playerId, name, gameData, answerList){
-        let emoji = ['🐭','🐵','🐶','🐷','🐺','🐤','🐧','🐔','🦊','🦄','🦁','🐻','🐯','🐱','🐰','🐴','🐼','🐹','🐸']
+        // let emoji = ['🐭','🐵','🐶','🐷','🐺','🐤','🐧','🐔','🦊','🦄','🦁','🐻','🐯','🐱','🐰','🐴','🐼','🐹','🐸']
         var player = {
             hostId, 
             playerId, 
-            name: emoji[Math.floor(Math.random()*emoji.length)] + name, 
+            // name: emoji[Math.floor(Math.random()*emoji.length)] + name,
+            name,
             gameData,
             answerList
         };
