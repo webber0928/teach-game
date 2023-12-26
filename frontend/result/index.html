@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>遊戲主持 | 智慧語言學習 DEMO</title>
+        <link rel="stylesheet" href="../assets/css/host.css" />
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
+    </head>
+    <body>
+        <a id="back" href="../">上一頁</a>
+        <h1 id="title">遊戲列表</h1>
+        <div id="game-list"></div>
+        <script src="../socket.io/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                function startGame(data) {
+                    window.location.href = '/host/' + '?id=' + data;
+                }
+                var socket = io();
+
+                socket.on('connect', function () {
+                    socket.emit('result-list');
+                });
+
+                socket.on('log-result', function (data) {
+
+                    let gameList = $('#game-list');
+                    // let itemCanvas = $('<canvas></canvas>');
+                    // new Chart(itemCanvas, {
+                    //     type: 'pie',
+                    //     weight: 100,
+                    //     data: {
+                    //         labels: [
+                    //             'Red',
+                    //             'Blue',
+                    //             'Yellow'
+                    //         ],
+                    //         datasets: [{
+                    //             label: 'My First Dataset',
+                    //             data: [300, 50, 100],
+                    //             backgroundColor: [
+                    //             'rgb(255, 99, 132)',
+                    //             'rgb(54, 162, 235)',
+                    //             'rgb(255, 205, 86)'
+                    //             ],
+                    //             hoverOffset: 4
+                    //         }]
+                    //     }
+                    // });
+                    // gameList.append(itemCanvas);
+
+                    $.each(data, (idx, item) => {
+                        console.log(idx, item)
+                        let itemDiv = $('<div style="width: 330px;float: left"></div>');
+                        let newBtn = $(`<div class="gameButton">${item.id}<br>${item.createdAt}</div>`);
+                        newBtn.data('data', item.id);
+                        itemDiv.append(newBtn);
+                        // newBtn.click(function () {
+                        //     let id = $(this).data('data');
+                        //     // window.location.hxref = '/host/' + '?id=' + id;
+                        // });
+                        item.playerData.forEach((obj, i) => {
+                            console.log(obj, i)
+                            let quDiv = $('<div style="padding: 10px 20px;border: 1px solid;background:#fff"></div>');
+                            quDiv.append(`<h3>${obj.name}</h3>`);
+                            quDiv.append(`<p>${obj.score}</p>`);
+                            let arrayWithLength = new Array(6).fill(0); 
+                            arrayWithLength.forEach((val, i) => {
+                                let key = `q${i+1}`
+                                let ans = obj[key] || 0
+                                quDiv.append(
+                                    `<span>${ans}, </span>`
+                                    // `<span>${key}: ${ans}, </span>`
+                                );
+                            });
+                            itemDiv.append(quDiv);
+                        });
+                        gameList.append(itemDiv);
+                    });
+                    gameList.append('<div style="clear: both;"></div>');
+                });
+            });
+        </script>
+    </body>
+</html>
