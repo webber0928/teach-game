@@ -56,26 +56,77 @@
                         let newBtn = $(`<div class="gameButton">${item.id}<br>${item.createdAt}</div>`);
                         newBtn.data('data', item.id);
                         itemDiv.append(newBtn);
+                        item.playerData.forEach((obj, i) => {
+                            let quDiv = $('<div style="padding: 10px 20px;border: 1px solid;background:#fff"></div>');
+                            quDiv.append(`<h3>${obj.name}</h3>`);
+                            quDiv.append(`<p>${obj.score}</p>`);
+
+                            let table = $('<table border=1 width=100%></table>')
+                            table.append(`<tr>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                            </tr>`)
+                            let arrayWithLength = new Array(6).fill(0);
+                            let tr = $('<tr></tr>') 
+                            arrayWithLength.forEach((val, i) => {
+                                let key = `q${i+1}`
+                                let ans = obj[key] || 0
+                                tr.append($(`<td>${ans}</td>`))
+                            })
+                            table.append(tr)
+                            quDiv.append(table);
+                            itemDiv.append(quDiv);
+
+                        })
+                       
+
                         // newBtn.click(function () {
                         //     let id = $(this).data('data');
                         //     // window.location.hxref = '/host/' + '?id=' + id;
                         // });
-                        item.playerData.forEach((obj, i) => {
-                            console.log(obj, i)
-                            let quDiv = $('<div style="padding: 10px 20px;border: 1px solid;background:#fff"></div>');
-                            quDiv.append(`<h3>${obj.name}</h3>`);
-                            quDiv.append(`<p>${obj.score}</p>`);
-                            let arrayWithLength = new Array(6).fill(0); 
-                            arrayWithLength.forEach((val, i) => {
-                                let key = `q${i+1}`
-                                let ans = obj[key] || 0
-                                quDiv.append(
-                                    `<span>${ans}, </span>`
-                                    // `<span>${key}: ${ans}, </span>`
-                                );
-                            });
-                            itemDiv.append(quDiv);
-                        });
+                        // var table=$("<table border=\"1\">");
+                        // item.playerData.forEach((obj, i) => {
+                        //     console.log(obj, i)
+                        //     var tr=$("<tr></tr>");
+                        //     tr.appendTo(table);
+                        //     let quDiv = $('<div style="padding: 10px 20px;border: 1px solid;background:#fff"></div>');
+                        //     quDiv.append(`<h3>${obj.name}</h3>`);
+                        //     quDiv.append(`<p>${obj.score}</p>`);
+
+                        //     let arrayWithLength = new Array(6).fill(0); 
+                        //     arrayWithLength.forEach((val, i) => {
+                        //         let key = `q${i+1}`
+                        //         let ans = obj[key] || 0
+                        //         var td=$("<td>"+ans+"</td>");
+                        //         td.appendTo(tr);
+                        //         // quDiv.append(
+                        //         //     `<span>${ans}, </span>`
+                        //         //     // `<span>${key}: ${ans}, </span>`
+                        //         // );
+                        //     });
+                        //     quDiv.appendTo(table)
+                        //     itemDiv.append(quDiv);
+                        // });
+                        // item.playerData.forEach((obj, i) => {
+                        //     console.log(obj, i)
+                        //     let quDiv = $('<div style="padding: 10px 20px;border: 1px solid;background:#fff"></div>');
+                        //     quDiv.append(`<h3>${obj.name}</h3>`);
+                        //     quDiv.append(`<p>${obj.score}</p>`);
+                        //     let arrayWithLength = new Array(6).fill(0); 
+                        //     arrayWithLength.forEach((val, i) => {
+                        //         let key = `q${i+1}`
+                        //         let ans = obj[key] || 0
+                        //         quDiv.append(
+                        //             `<span>${ans}, </span>`
+                        //             // `<span>${key}: ${ans}, </span>`
+                        //         );
+                        //     });
+                        //     itemDiv.append(quDiv);
+                        // });
                         gameList.append(itemDiv);
                     });
                     gameList.append('<div style="clear: both;"></div>');
