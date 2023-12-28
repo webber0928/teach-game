@@ -69,6 +69,7 @@
                                 <th>4</th>
                                 <th>5</th>
                                 <th>6</th>
+                                <th>s</th>
                             </tr>`)
                             let arrayWithLength = new Array(6).fill(0);
                             let tr = $('<tr></tr>') 
@@ -77,6 +78,7 @@
                                 let ans = obj[key] || 0
                                 tr.append($(`<td>${ans}</td>`))
                             })
+                            tr.append($(`<td>${obj.score}</td>`))
                             table.append(tr)
                             quDiv.append(table);
                             itemDiv.append(quDiv);
